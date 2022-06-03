@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form method="POST">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Post</button>
+</form>
+
+<div>
+    <ul>
+        {% for blog in blogs %}
+            <li>{{ blog.title }} {{ blog.content }}</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

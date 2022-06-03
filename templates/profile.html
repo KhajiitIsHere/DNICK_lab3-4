@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>{{ author.name }}</h2>
+<img width="200px" src="{{ MEDIA_URL }}{{ author.image.url }}">
+
+<div>
+    <ul>
+        {% for blog in blogs %}
+            <li>{{ blog.title }} {{ blog.content }}</li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
