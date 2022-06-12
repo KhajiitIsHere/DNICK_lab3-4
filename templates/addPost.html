@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
-<form method="POST">
-    {% csrf_token %}
-    {{ form }}
-    <button type="submit">Post</button>
-</form>
 
-<div>
-    <ul>
-        {% for blog in blogs %}
-            <li>{{ blog.title }} {{ blog.content }}</li>
-        {% endfor %}
-    </ul>
+
+<div class="container">
+    <div class="bg-light p-3 my-5">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-dark" type="submit">Post</button>
+        </form>
+    </div>
+
 </div>
 </body>
 </html>

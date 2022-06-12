@@ -34,8 +34,7 @@ def add_post(request):
             blog.last_changed = datetime.date.today()
             blog.save()
         return redirect('/add/post/')
-    blogs = Blog.objects.filter(author_id=author.id)
-    context = {'form': BlogForm, 'blogs': blogs}
+    context = {'form': BlogForm}
     return render(request, 'addPost.html', context)
 
 

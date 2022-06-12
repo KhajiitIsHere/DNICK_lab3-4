@@ -3,17 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
-<body>
-<h2>{{ author.name }}</h2>
-<img width="200px" src="{{ MEDIA_URL }}{{ author.image.url }}">
 
-<div>
-    <ul>
-        {% for blog in blogs %}
-            <li>{{ blog.title }} {{ blog.content }}</li>
-        {% endfor %}
-    </ul>
+<div class="container">
+<div class="d-flex my-5">
+    <img width="200px" src="{{ MEDIA_URL }}{{ author.image.url }}">
+    <div class="ms-4 p-4">
+        <h2>{{ author.name }}</h2>
+    </div>
+</div>
+    <h2>My posts</h2>
+    {% for blog in blogs %}
+        <div class="card d-flex justify-content-start flex-row my-5 p-2">
+            <div>
+                <img width="400px" src="{{ MEDIA_URL }}{{ blog.image.url }}">
+            </div>
+            <div class="ms-5 p-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-0">{{ blog.title }}</h3>
+                    <p class="m-0 ms-3">- {{ blog.author }}</p>
+                </div>
+                <p class="mt-5">{{ blog.content }}</p>
+            </div>
+        </div>
+    {% endfor %}
 </div>
 </body>
 </html>

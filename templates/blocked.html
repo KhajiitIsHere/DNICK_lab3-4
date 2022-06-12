@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
+<div class="container">
     <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <button type="submit">Block user</button>
-    </form>
-    <div>
-        <ul>
-            {% for user in blocked_users %}
-                <li>{{ user.blocked_user }}</li>
-            {% endfor %}
-        </ul>
-    </div>
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit">Block user</button>
+</form>
+<div>
+    {% for user in blocked_users %}
+        <div class="d-flex my-5">
+            <img width="200px" src="{{ MEDIA_URL }}{{ user.blocked_user.image.url }}">
+            <div class="ms-4 p-4">
+                <h2>{{ user.blocked_user.name }}</h2>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+</div>
 </body>
 </html>
