@@ -23,6 +23,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=50)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     content = models.TextField()
+    image = models.ImageField(upload_to='blogPics/', null=True, blank=True)
     date_created = models.DateField()
     last_changed = models.DateField()
 

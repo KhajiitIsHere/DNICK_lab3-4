@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+
+    </style>
 </head>
 <body>
-    <ul>
-        {% for blog in blogs %}
-            <li>{{ blog.title }} {{ blog.content }} - {{ blog.author }}</li>
-        {% endfor %}
-    </ul>
+<div class="container">
+    {% for blog in blogs %}
+        <div class="card d-flex justify-content-start flex-row my-5 p-2">
+            <div>
+                <img width="400px" src="{{ MEDIA_URL }}{{ blog.image.url }}">
+            </div>
+            <div class="ms-5 p-3">
+                <div class="d-flex align-items-center">
+                    <h3 class="m-0">{{ blog.title }}</h3>
+                    <p class="m-0 ms-3">- {{ blog.author }}</p>
+                </div>
+                <p class="mt-5">{{ blog.content }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 </body>
 </html>

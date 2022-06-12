@@ -35,6 +35,21 @@ class CommentAdmin(admin.ModelAdmin):
         else:
             return False
 
+    def get_queryset(self, request):
+        is_blocked_user = Author.objects.filter(user_id=request.user.id).first()
+
+        if is_blocked_user is None:
+            return Blog.objects.all()
+
+        return Comment.objects.exclude(on_blog_id__in=RawSQL("""
+            SELECT blog.id FROM Blog_blog AS blog, Blog_blockedusers AS blocked, Blog_comment AS comment
+            WHERE comment.on_blog_id=blog.id AND blog.author_id=blocked.from_user_id AND blocked.blocked_user_id=%s
+        """, [is_blocked_user.id])) \
+            .exclude(on_blog_id__in=RawSQL("""
+                        SELECT blog.id FROM Blog_blog AS blog, Blog_blockedusers AS blocked, Blog_comment AS comment
+                        WHERE comment.on_blog_id=blog.id AND blog.author_id=blocked.blocked_user_id AND blocked.from_user_id=%s
+                    """, [is_blocked_user.id])).all()
+
 
 admin.site.register(Comment, CommentAdmin)
 
@@ -42,7 +57,7 @@ admin.site.register(Comment, CommentAdmin)
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'content')
     search_fields = ('title', 'content')
-    list_filter = ('date_created',)
+    list_filter = ('date_created','title', 'content')
 
     def has_change_permission(self, request, obj=None):
         if obj is not None and request.user.id == obj.author.user.id:
@@ -56,9 +71,13 @@ class BlogAdmin(admin.ModelAdmin):
         if is_blocked_user is None:
             return Blog.objects.all()
 
-        return Blog.objects.filter(id__in=RawSQL("""
-            SELECT blog.id FROM Blog_blog AS blog, Blog_author AS author, Blog_blockedusers AS blocked
-            WHERE blog.author_id=author.id AND author.id=blocked.from_user_id AND blocked.blocked_user_id<>%s
+        return Blog.objects.exclude(id__in=RawSQL("""
+            SELECT blog.id FROM Blog_blog AS blog, Blog_blockedusers AS blocked
+            WHERE blog.author_id=blocked.from_user_id AND blocked.blocked_user_id=%s
+        """, [is_blocked_user.id]))\
+            .exclude(id__in=RawSQL("""
+            SELECT blog.id FROM Blog_blog AS blog, Blog_blockedusers AS blocked
+            WHERE blog.author_id=blocked.blocked_user_id AND blocked.from_user_id=%s
         """, [is_blocked_user.id])).all()
 
 
